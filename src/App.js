@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import logo from './pokemonLogo.svg';
+import { AspectRatio, Container, Image, Space, } from '@mantine/core';
 import './App.css';
+import { UserForm } from './components/UserForm';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="">
+      {/* make blue light bg  */}
+
+      {/* //Header */}
+      <Container size="xs" px="xs" my="md">
+        {/* //center text */}
+        <h1> Who is your favorite</h1>
+        <AspectRatio ratio={5 / 2} sx={{ maxWidth: 400 }} mx="auto">
+          <Image
+            src={logo}
+            alt="Pokemon"
+          />
+        </AspectRatio>
+
+        <Space h="lg" />
+      </Container>
+      {/*  Form*/}
+      <>
+
+        <UserForm />
+
+
+
+      </>
     </div>
   );
 }
