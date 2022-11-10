@@ -34,15 +34,13 @@ export const UserForm = () => {
       }, [form.values]);
 
     return (
-        <Paper shadow="md" radius="lg" p="lg" mx='md' withBorder>
+        <Paper shadow="md" size="md" radius="lg" p="lg" mx='md'  withBorder>
 
             {/* ///fix text here Lg staff */}
             <h2> Who are you?</h2>
             <form onSubmit={form.onSubmit((values) => {
                 console.log('values')
                 console.log(values)
-                // setLocalValues(form.values)
-                // console.log(localValues)
             })}>
                 <Grid gutter="xl">
                     <Grid.Col sm={6} lg={4} offsetLg={2}>

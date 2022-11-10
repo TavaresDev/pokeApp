@@ -1,35 +1,30 @@
-import logo from './pokemonLogo.svg';
-import { AspectRatio, Container, Image, Space, } from '@mantine/core';
+
 import './App.css';
 import { UserForm } from './components/UserForm';
+import { SearchPokemon } from './components/SearchPokemon';
+import { Header } from './components/Header';
+import { Container } from '@mantine/core';
+import styled from '@emotion/styled';
+
+const AppContainer = styled(Container)`
+  text-align: center;
+
+  background: #61dafb;
+
+`;
 
 function App() {
   return (
-    <div className="">
+    <AppContainer size='xl' p='lg'>
       {/* make blue light bg  */}
 
-      {/* //Header */}
-      <Container size="xs" px="xs" my="md">
-        {/* //center text */}
-        <h1> Who is your favorite</h1>
-        <AspectRatio ratio={5 / 2} sx={{ maxWidth: 400 }} mx="auto">
-          <Image
-            src={logo}
-            alt="Pokemon"
-          />
-        </AspectRatio>
+      <Header />
 
-        <Space h="lg" />
-      </Container>
-      {/*  Form*/}
-      <>
+      <UserForm />
 
-        <UserForm />
+      <SearchPokemon />
 
-
-
-      </>
-    </div>
+    </AppContainer>
   );
 }
 
