@@ -1,41 +1,41 @@
-import { Paper, Image, AspectRatio, Center, Text } from '@mantine/core'
-import React from 'react'
+import { Paper, Image, AspectRatio, Text, Loader } from '@mantine/core'
 import styled from '@emotion/styled';
+import { useFetch } from '../hooks/useFetch';
 
 const StyledPaper = styled(Paper)`
   text-align: center;
   cursor: pointer;
-
+  
   &:hover {
-    background-color: #eee
+    background-color: #eee;
+	outline: 5px solid #FFCC00;
   }
-  ${({ active }) => active && `
-    border:5px solid #FFCC00;
-  `}
 
 `;
 
-export const PokemonCard = ({ id, name, image, selectPokemon, selected }) => {
+export const PokemonCard = ({ name, selectPokemon }) => {
 
-    const activePokemon = (selected == id ? 1 : 0)
-    return (
-        <StyledPaper active={activePokemon} id={id} shadow="md" p="md" onClick={selectPokemon} withBorder>
-            <>
-                <Text order={2} size="h4">#{id}</Text>
-                <AspectRatio ratio={3 / 4} sx={{ maxWidth: 140 }} mx="auto">
+	const pokeURL = `https://pokeapi.co/api/v2/pokemon/${name}`
+	const { status, data: pokemonData } = useFetch(name && pokeURL)
 
-                    <Image
-                        src={image}
-                        height={160}
-                        alt={name}
-                    />
-                </AspectRatio>
-                <Text tt="capitalize" fw={700} order={1} size="h3"> {name}</Text >
-                {/* true ?{selected}
-                id = {id}
-                sel = {selected}
-                pok {selectedPok} pok */}
-            </>
-        </StyledPaper>
-    )
+
+	if (status !== 'fetched') return (
+		<StyledPaper shadow="md" p="md" withBorder>
+			<Loader variant="dots" />
+		</StyledPaper>
+	)
+
+	return (
+		<StyledPaper id={name} shadow="md" p="md" onClick={selectPokemon} withBorder>
+			<Text order={2} fw='bold' size="h4">#  {pokemonData?.id}</Text>
+			<AspectRatio ratio={3 / 4} sx={{ maxWidth: 140 }} mx="auto">
+				<Image
+					src={pokemonData?.sprites.front_default}
+					height={160}
+					alt={pokemonData?.name}
+				/>
+			</AspectRatio>
+			<Text tt="capitalize" fw={700} order={1} size="h3"> {pokemonData?.name}</Text >
+		</StyledPaper>
+	)
 }

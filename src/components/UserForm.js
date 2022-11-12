@@ -1,9 +1,11 @@
-import { Button, Grid, Group, Paper, TextInput } from '@mantine/core'
-import React, { useEffect } from 'react'
+import { Button, Grid, Group, Paper, TextInput, Title } from '@mantine/core'
+import React, { useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
+import { UserContext } from '../context/UserContext'
 
 //check if can use useLocalHook
-export const UserForm = () => {
+export const UserForm = ({ nextStep }) => {
+    const { user, setUser } = useContext(UserContext);
     const validatePhoneNumber = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/
     const form = useForm({
         initialValues: {
@@ -17,28 +19,28 @@ export const UserForm = () => {
         },
     });
 
-
     useEffect(() => {
         const storedValue = window.localStorage.getItem('user-form');
         if (storedValue) {
-          try {
-            form.setValues(JSON.parse(window.localStorage.getItem('user-form')));
-          } catch (e) {
-            console.log('Failed to parse stored value');
-          }
+            try {
+                form.setValues(JSON.parse(window.localStorage.getItem('user-form')));
+            } catch (e) {
+                console.log('Failed to parse stored value');
+            }
         }
-      }, []);
-    
-      useEffect(() => {
+    }, []);
+
+    useEffect(() => {
         window.localStorage.setItem('user-form', JSON.stringify(form.values));
-      }, [form.values]);
+    }, [form.values]);
 
     return (
-        <Paper shadow="md" size="md" radius="lg" p="lg" mx='md'  withBorder>
+        <Paper shadow="md" size="md" radius="lg" p="lg" m='md' withBorder >
 
-            {/* ///fix text here Lg staff */}
-            <h2> Who are you?</h2>
+            <Title size='h2' fw='bold' c='red.7'> Please fill the form</Title>
             <form onSubmit={form.onSubmit((values) => {
+                setUser({ ...user, values })
+                nextStep()
                 console.log('values')
                 console.log(values)
             })}>
@@ -53,7 +55,7 @@ export const UserForm = () => {
                     </Grid.Col>
                 </Grid>
                 <Group position="center" mt="xl">
-                    <Button onClick={() => form.reset()}>clear Form</Button>
+                    <Button bg='red' onClick={() => form.reset()}>Clear Form</Button>
                     <Button type="submit"> Save</Button>
                 </Group>
             </form>
