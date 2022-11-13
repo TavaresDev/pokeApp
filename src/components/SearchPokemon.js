@@ -7,62 +7,22 @@ import { PokemonCard } from './PokemonCard'
 export const SearchPokemon = ({ nextStep }) => {
     const [inputSearch, setInputSearch] = useState('')
     const { user, setUser } = useContext(UserContext)
-    const URL = 'https://pokeapi.co/api/v2/pokemon'
+    const baseURL = 'https://pokeapi.co/api/v2/pokemon'
     const pokemonLimit = '?limit=250'
 
+    let URL = baseURL + pokemonLimit
+
     // custom hook to fetch and cache data
-    const { status, data } = useFetch(URL, pokemonLimit)
+    const { status, data } = useFetch(URL)
 
-    // if(status) console.log('status', status)
-    // if(data) setPokemonList2(data=>data.results)
-    console.log({ status })
-    console.log({ data })
-
-    // const fetchAllPokemon = async () => {
-    //     const data = await get('pokemon', 'limit=10')
-    //     // get each pokemon data
-    //     data.results.forEach(async pokemon => {
-    //         const pokemonData = await fetchPokemon(pokemon)
-    //         setPokemonList(pokemonList => [...pokemonList, pokemonData])
-    //     });
-    // }
-
-    // const fetchPokemon = async (pokemon) => {
-    //     const data = await get(`pokemon/${pokemon.name}`)
-    //     return data
-    // }
-    // const fetchPokemonById = async (pokemonID) => {
-    //     const data = await get(`pokemon/${pokemonID}`)
-    //     return data
-    // }
-
-    // const get = async (path, query) => {
-    //     const url = baseURL + path + `${query ? '?' + query : ''}`
-    //     const res = await fetch(url)
-    //     const data = await res.json()
-    //     return data
-    // }
-
-    // useEffect(() => {
-    //     console.log(pokemonList.length)
-    //     if (pokemonList.length === 0) {
-    //         fetchAllPokemon()
-    //         console.log(pokemonList)
-    //     }
-
-    // }, [])
-
-
-    const selectPokemon = (e) => {
+    const selectPokemon = (e) => { 
         const pokeId = e.currentTarget.id
         setUser({ ...user, pokeId })
         nextStep()
-        // fetchPokemonById(pokeId).then((pokemonData) => setUser({...user,pokemonData}))
-
     }
 
     return (
-        <Container shadow="md" radius="lg" mx='md' fluid  >
+        <Container shadow="md" radius="lg" fluid  >
             <Title c='white' >Filter and select</Title >
             <Container my='md'>
                 <TextInput align="left" size='md' aria-label='Search Pokemon Name' placeholder='Search by name'
@@ -75,8 +35,8 @@ export const SearchPokemon = ({ nextStep }) => {
                         { minWidth: 'xs', cols: 2 },
                         { minWidth: 'sm', cols: 3 },
                         { minWidth: 'md', cols: 4 },
-                        { minWidth: 'lg', cols: 4 },
-                        { minWidth: 'xl', cols: 5 },
+                        { minWidth: 'lg', cols: 5 },
+                        { minWidth: 'xl', cols: 6 },
                     ]}>
                     {data?.results
                         .filter(pokemon => pokemon.name.includes(inputSearch))
@@ -85,8 +45,8 @@ export const SearchPokemon = ({ nextStep }) => {
                                 selectPokemon={selectPokemon}
                                 id={pokemon.name}
                                 name={pokemon.name}
+                                selected={user?.pokeId}
                             />
-
                         ))}
                 </SimpleGrid>
             }

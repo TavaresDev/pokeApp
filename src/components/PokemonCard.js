@@ -3,21 +3,24 @@ import styled from '@emotion/styled';
 import { useFetch } from '../hooks/useFetch';
 
 const StyledPaper = styled(Paper)`
-  text-align: center;
-  cursor: pointer;
+  	text-align: center;
+  	cursor: pointer;
   
-  &:hover {
+  	&:hover {
     background-color: #eee;
 	outline: 5px solid #FFCC00;
   }
 
+	${({ active }) => active && `
+   	outline: 5px solid #FFCC00;
+  `}
+
 `;
 
-export const PokemonCard = ({ name, selectPokemon }) => {
+export const PokemonCard = ({ name, selectPokemon, selected }) => {
 
 	const pokeURL = `https://pokeapi.co/api/v2/pokemon/${name}`
 	const { status, data: pokemonData } = useFetch(name && pokeURL)
-
 
 	if (status !== 'fetched') return (
 		<StyledPaper shadow="md" p="md" withBorder>
@@ -26,7 +29,7 @@ export const PokemonCard = ({ name, selectPokemon }) => {
 	)
 
 	return (
-		<StyledPaper id={name} shadow="md" p="md" onClick={selectPokemon} withBorder>
+		<StyledPaper active={selected === name ? 1 : 0} id={name} shadow="md" p="md" onClick={selectPokemon} withBorder>
 			<Text order={2} fw='bold' size="h4">#  {pokemonData?.id}</Text>
 			<AspectRatio ratio={3 / 4} sx={{ maxWidth: 140 }} mx="auto">
 				<Image

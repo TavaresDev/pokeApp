@@ -1,5 +1,4 @@
-import React from 'react'
-import logo from '../pokemonLogo.svg';
+import logo from '../img/pokemonLogo.svg';
 import { AspectRatio, Container, Image, Space, Title, } from '@mantine/core';
 
 export const Header = () => {

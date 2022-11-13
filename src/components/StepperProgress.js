@@ -7,15 +7,15 @@ import { SearchPokemon } from './SearchPokemon';
 
 export const StepperProgress = () => {
     const [active, setActive] = useState(0);
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     const nextButtonText = (active === 2 ? 'Submit' : 'Next')
-    const submissionMsg = (user.values !== undefined ? "Your submition was susccefull" : "try again")
+    const submissionMsg = (user?.values !== undefined ? "Your submition was susccefull" : "try again")
 
     return (
-        <Container>
+        <Container size='xl' px='md'>
             <Stepper active={active} onStepClick={setActive} color="red" breakpoint="xs" >
                 <Stepper.Step label="Tell me about you" >
 
@@ -47,7 +47,7 @@ export const StepperProgress = () => {
                     <Button variant="default" onClick={prevStep}>Back</Button>
                 }
 
-                {(active == 1 || active === 2) &&
+                {(active === 1 || active === 2) &&
                     <Button onClick={nextStep}>{nextButtonText}</Button>
                 }
             </Group>
